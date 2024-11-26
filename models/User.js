@@ -23,6 +23,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image:{
+    type: String,
+  },
   profession: String,
   birthDate: Date,
   city: String,
