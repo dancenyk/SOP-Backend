@@ -22,9 +22,11 @@ const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique:true
   },
   image:{
     type: String,
+    default:""
   },
   profession: String,
   birthDate: Date,
@@ -58,6 +60,10 @@ const UserSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
   posts: [
     {
