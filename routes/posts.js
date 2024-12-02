@@ -3,13 +3,12 @@ const router = express.Router();
 const User = require("../models/User");
 const verifyToken = require("../middleware/auth");
 
-router.post("/new", async (req, res) => {
+router.post("/new", verifyToken, async (req, res) => {
   
   try {
    const {content} = req.body;
    const user = await User.findOne({ uid: req.uid });
-    //const {content, uid} = req.body; ( esta la usé para probar sin token)
-    //const user = await User.findOne({ uid});( esta la usé para probar sin token)
+  
     if (!user) {
       return res.status(404).json({error: "no se encontró ningún usuario"})
     }
@@ -25,10 +24,9 @@ router.post("/new", async (req, res) => {
 });
 
 
-router.get("/mypost", async (req, res) => {
+router.get("/mypost", verifyToken, async (req, res) => {
   try {
     const user = await User.findOne({ uid: req.uid }); 
-    //const user = await User.findOne({ uid: req.body.uid });  ( esta la usé para probar sin token)
     if (!user) return res.status(404).send("User not found");
     res.json(user.posts);
   } catch (error) {
@@ -36,7 +34,7 @@ router.get("/mypost", async (req, res) => {
   }
 });
 
-router.get("/allposts", async (req, res)=>{
+router.get("/allposts", verifyToken, async (req, res)=>{
   try{
     const allUsers = await User.find({}, "posts name");
     const usersWithPosts = allUsers.filter(user => user.posts.length > 0);
@@ -47,13 +45,12 @@ router.get("/allposts", async (req, res)=>{
 })
 
 
-router.put("/edit/:postId", async (req, res) => {
+router.put("/edit/:postId", verifyToken, async (req, res) => {
   const { postId } = req.params; 
-  const { content, uid } = req.body;  
+  const { content} = req.body;  
 
   try {
     const user = await User.findOne({ uid: req.uid });
-    //const user = await User.findOne({ uid }); ( esta la usé para probar sin token)
 
     if (!user) {
       return res.status(404).json({ error: "Usuario no encontrado" });
@@ -74,11 +71,10 @@ router.put("/edit/:postId", async (req, res) => {
 });
 
 
-router.delete("/delete/:postId", async (req, res) => {
+router.delete("/delete/:postId", verifyToken, async (req, res) => {
   const { postId } = req.params;
-  const { uid } = req.body;
   try {
-    const user = await User.findOne({ uid });
+    const user = await User.findOne({ uid: req.uid });
     if (!user) {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
