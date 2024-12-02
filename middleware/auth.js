@@ -1,7 +1,7 @@
 const admin = require("firebase-admin");
 
 const verifyToken = async (req, res, next) => {
-  const authHeader = req.headers.autorization;
+  const authHeader = req.headers.authorization;
   const token =
     authHeader && authHeader.startsWith("Bearer ")
       ? authHeader.split(" ")[1]
