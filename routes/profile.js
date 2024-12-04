@@ -93,16 +93,19 @@ router.get("/users",verifyToken, async (req, res) => {
 });
 
 router.get("/users/:uid", verifyToken, async (req, res) => {
+  const { uid } = req.params;
   try {
-    const userById = await User.findOne(req.params.uid);
-    if (!userById) {
+    const user = await User.findOne({ uid: uid });
+    if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.status(200).json(userById);
+    res.status(200).json(user);
   } catch (err) {
-    res.status(404).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 });
+
+
 
 router.delete("/delete/:userId", verifyToken,  async (req, res) => {
   try {
