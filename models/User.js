@@ -9,7 +9,6 @@ const UserSchema = new mongoose.Schema({
   userType: {
     type: String,
     enum: ["admin", "professional", "pacient"],
-    required: true,
   },
   name: {
     type: String,
@@ -17,7 +16,6 @@ const UserSchema = new mongoose.Schema({
   },
   lastName: {
     type: String,
-    required: true,
   },
   email: {
     type: String,
@@ -50,7 +48,6 @@ const UserSchema = new mongoose.Schema({
       "resistencia a la insulina",
       "insomnio",
     ],
-    required: true,
   },
   needsInfo: String,
   sopManaging: String,
