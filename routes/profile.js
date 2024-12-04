@@ -92,9 +92,9 @@ router.get("/users",verifyToken, async (req, res) => {
   }
 });
 
-router.get("/users/:userId", verifyToken, async (req, res) => {
+router.get("/users/:uid", verifyToken, async (req, res) => {
   try {
-    const userById = await User.findById(req.params.userId);
+    const userById = await User.findOne(req.params.uid);
     if (!userById) {
       return res.status(404).json({ error: "User not found" });
     }
