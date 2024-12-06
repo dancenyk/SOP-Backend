@@ -13,7 +13,12 @@ router.post("/new", verifyToken, async (req, res) => {
       return res.status(404).json({error: "no se encontró ningún usuario"})
     }
 
-    const newPost = { content, timestamp: new Date()}
+    const newPost = {
+      content,
+      timestamp: new Date(),
+      authorName: user.name,
+    };
+
     user.posts.push(newPost)
   
     await user.save();
